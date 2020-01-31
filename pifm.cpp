@@ -81,18 +81,18 @@ struct GPCTL {
 
 
 void getRealMemPage(void** vAddr, void** pAddr) {
-    void* a = valloc(4096);
+    int* a = (int*)valloc(4096);
     
-    ((int*)a)[0] = 1;  // use page to force allocation.
+    a[0] = 1;  // use page to force allocation.
     
-    mlock(a, 4096);  // lock into ram.
+    mlock((void*)a, 4096);  // lock into ram.
     
     *vAddr = a;  // yay - we know the virtual address
     
     unsigned long long frameinfo;
     
     int fp = open("/proc/self/pagemap", O_RDONLY);
-    lseek(fp, ((int)a)/4096*8, SEEK_SET);
+    lseek(fp, a/4096*8, SEEK_SET);
     read(fp, &frameinfo, sizeof(frameinfo));
     
     *pAddr = (void*)((int)(frameinfo*4096));
