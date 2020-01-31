@@ -92,7 +92,7 @@ void getRealMemPage(void** vAddr, void** pAddr) {
     unsigned long long frameinfo;
     
     int fp = open("/proc/self/pagemap", O_RDONLY);
-    lseek(fp, a/4096*8, SEEK_SET);
+    lseek(fp, (int)a/4096*8, SEEK_SET);
     read(fp, &frameinfo, sizeof(frameinfo));
     
     *pAddr = (void*)((int)(frameinfo*4096));
