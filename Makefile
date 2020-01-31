@@ -1,4 +1,4 @@
-CXXFLAGS=-Wall -O3 -fno-strict-aliasing -fwrapv -Wstrict-prototypes -std=c99 -lm -fpermissive -Wint-to-pointer-cast
+CXXFLAGS=-Wall -fno-strict-aliasing -fwrapv -Wstrict-prototypes -std=c99 -lm
 all: pifm
 
 clean:
