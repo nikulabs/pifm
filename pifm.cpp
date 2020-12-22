@@ -7,7 +7,7 @@
 // Code quality = Totally hacked together.
 
 // This program is free software; you can redistribute it and/or modify it
-// under the terms of the GNU General Public License version 2 as publised
+// under the terms of the GNU General Public License version 2 as published
 // by the Free Software Foundation.
 //
 // This program is distributed in the hope that it will be useful, but
@@ -33,10 +33,7 @@
 #include <signal.h>
 #include <unistd.h>
 
-#define PAGE_SIZE (4*1024)
-#define BLOCK_SIZE (4*1024)
-
-#define PI 3.14159265
+constexpr auto PI = 3.14159265;
 
 int  mem_fd;
 char *gpio_mem, *gpio_map;
@@ -589,7 +586,7 @@ void setupDMA( float centerFreq ){
    
    int centerFreqDivider = (int)((500.0 / centerFreq) * (float)(1<<12) + 0.5);
    
-   // make data page contents - it's essientially 1024 different commands for the
+   // make data page contents - it's essentially 1024 different commands for the
    // DMA controller to send to the clock module at the correct time.
    for (int i=0; i<1024; i++)
      ((int*)(constPage.v))[i] = (0x5a << 24) + centerFreqDivider - 512 + i;

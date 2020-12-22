@@ -6,12 +6,14 @@
 *.a
 
 # Shared objects (inc. Windows DLLs)
+build/**
 *.dll
 *.so
 *.so.*
 *.dylib
 
 # Executables
+pifm
 *.exe
 *.out
 *.app
