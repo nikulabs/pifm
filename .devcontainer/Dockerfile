@@ -4,7 +4,7 @@
 ARG VARIANT="buster"
 FROM mcr.microsoft.com/vscode/devcontainers/cpp:0-${VARIANT}
 
-# [Optional] Uncomment this section to install additional packages.
+# Install tools for building
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install build-essential cmake cppcheck valgrind \
     && apt-get -y install apt-transport-https ca-certificates curl gnupg-agent software-properties-common \
