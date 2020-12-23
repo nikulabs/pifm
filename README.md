@@ -85,3 +85,5 @@ All rights of the original authors reserved.
 * http://www.youtube.com/v/ekcdAX53-S8#! 
 
 * https://github.com/richardghirst/PiBits/pull/18
+
+* https://www.reddit.com/r/raspberry_pi/comments/14k5o3/raspberry_pi_fm_transmitter_with_no_additional/
