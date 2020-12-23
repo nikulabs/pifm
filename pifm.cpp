@@ -42,28 +42,18 @@ int volume = 4;
 
 
 // I/O access
-volatile unsigned *gpio;
 volatile unsigned *allof7e;
-
-// GPIO setup macros. Always use INP_GPIO(x) before using OUT_GPIO(x) or SET_GPIO_ALT(x,y)
-#define INP_GPIO(g) *(gpio+((g)/10)) &= ~(7<<(((g)%10)*3))
-#define OUT_GPIO(g) *(gpio+((g)/10)) |=  (1<<(((g)%10)*3))
-#define SET_GPIO_ALT(g,a) *(gpio+(((g)/10))) |= (((a)<=3?(a)+4:(a)==4?3:2)<<(((g)%10)*3))
-
-#define GPIO_SET *(gpio+7)  // sets   bits which are 1 ignores bits which are 0
-#define GPIO_CLR *(gpio+10) // clears bits which are 1 ignores bits which are 0
-#define GPIO_GET *(gpio+13)  // sets   bits which are 1 ignores bits which are 0
 
 #define ACCESS(base) *(volatile int*)((int)allof7e+base-0x7e000000)
 #define SETBIT(base, bit) ACCESS(base) |= 1<<bit
 #define CLRBIT(base, bit) ACCESS(base) &= ~(1<<bit)
 
-#define CM_GP0CTL (0x7e101070)
-#define GPFSEL0 (0x7E200000)
-#define CM_GP0DIV (0x7e101074)
-#define CLKBASE (0x7E101000)
-#define DMABASE (0x7E007000)
-#define PWMBASE  (0x7e20C000) /* PWM controller */
+constexpr auto CM_GP0CTL = 0x7e101070;
+constexpr auto GPFSEL0   = 0x7E200000;
+constexpr auto CM_GP0DIV = 0x7e101074;
+constexpr auto CLKBASE   = 0x7E101000;
+constexpr auto DMABASE   = 0x7E007000;
+constexpr auto PWMBASE   = 0x7e20C000; /* PWM controller */
 
 
 struct GPCTL {
@@ -120,7 +110,7 @@ void setup_fm()
                   PROT_READ|PROT_WRITE,
                   MAP_SHARED,
                   mem_fd,
-                  0x20000000  //base
+                  0x20000000  //base - peripheral bus
               );
 
     if ((int)allof7e==-1) exit(-1);
@@ -270,7 +260,7 @@ public:
     // this isn't the right filter...  But it's close...
     // Something todo with a bilinear transform not being right...
     PreEmp(float rate, SampleSink* next): 
-        fmconstant(rate * 75.0e-6), // for pre-emphisis filter.  75us time constant
+        fmconstant(rate * 75.0e-6), // for pre-emphasis filter.  75us time constant
         dataold(0),
         next(next) { };
     
@@ -312,7 +302,7 @@ public:
           for(int j=0; j<SQUALITY; j++) {  // starttime
             float x = PI * ((float)j/SQUALITY + (QUALITY-1-i) - (QUALITY-1)/2.0);
             if (x==0)
-              sincLUT[j][i] = 1.0;  // sin(0)/(0) == 1, says my limits therory
+              sincLUT[j][i] = 1.0;  // sin(0)/(0) == 1, says my limits theory
             else
               sincLUT[j][i] = sin(x)/x;            
           }
