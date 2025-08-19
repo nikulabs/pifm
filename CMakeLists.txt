@@ -1,11 +1,8 @@
-cmake_minimum_required(VERSION 3.0.0)
-project(pifm VERSION 0.1.0)
+cmake_minimum_required(VERSION 3.19)
+project(
+    pifm
+    VERSION 0.1.0
+    DESCRIPTION "A simple FM transmitter for Raspberry Pi"
+    LANGUAGES CXX)
 
-include(CTest)
-enable_testing()
-
-add_executable(pifm pifm.cpp)
-
-set(CPACK_PROJECT_NAME ${PROJECT_NAME})
-set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
-include(CPack)
+add_subdirectory(apps)
